@@ -2,22 +2,22 @@ package com.objectpartners.conference_roster.data.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
-@Entity
 @Data
+@Document
 @EqualsAndHashCode(callSuper = true)
 public class Person extends AbstractEntity {
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
 
-    @OneToMany(mappedBy = "person")
-    private Set<Attendance> conferences;
+    @DBRef
+    private Set<Attendance> attendances = new HashSet<>(0);
 
-    @OneToMany
-    private Set<Presentation> presentations;
+    @DBRef
+    private Set<Presentation> presentations = new HashSet<>(0);
 }

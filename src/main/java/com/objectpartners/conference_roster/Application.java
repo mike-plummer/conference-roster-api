@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @Import({
-        DocumentationConfiguration.class
+        DocumentationConfiguration.class,
+        TestDataLoader.class    // Remove once real database exists
 })
 public class Application {
     public static void main(String[] args) {

@@ -1,15 +1,19 @@
 package com.objectpartners.conference_roster.config;
 
 import com.google.common.base.Predicates;
+import com.objectpartners.conference_roster.data.entities.Attendance;
+import com.objectpartners.conference_roster.data.entities.Conference;
+import com.objectpartners.conference_roster.data.entities.Person;
+import com.objectpartners.conference_roster.data.entities.Presentation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.DocumentationContextBuilder;
 import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -33,7 +37,12 @@ public class DocumentationConfiguration {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.ant("/api/**"))
-                .build();
+                .build()
+                // Ugh - SpringFox pukes on circular references
+                .ignoredParameterTypes(Attendance.class)
+                .ignoredParameterTypes(Conference.class)
+                .ignoredParameterTypes(Person.class)
+                .ignoredParameterTypes(Presentation.class);
     }
 
     @Bean
